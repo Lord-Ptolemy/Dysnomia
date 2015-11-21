@@ -1,0 +1,26 @@
+{
+  "name": "dysnomia",
+  "version": "0.0.1",
+  "description": "A Discord bot using discord.js",
+  "main": "dysnomia.js",
+  "scripts": {
+    "start": "node dysnomia"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abalabahaha/Dysnomia.git"
+  },
+  "author": "abalabahaha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abalabahaha/Dysnomia/issues"
+  },
+  "homepage": "https://github.com/abalabahaha/Dysnomia#readme",
+  "dependencies": {
+    "discord.js": "hydrabolt/discord.js"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=4.0.0"
+  }
+}
