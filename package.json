@@ -21,7 +21,7 @@
     "discord.js": "hydrabolt/discord.js"
   },
   "devDependencies": {
-    "eshint": "^1.10.0",
+    "eslint": "^1.10.1",
     "mocha": "^2.3.4"
   },
   "engines": {
