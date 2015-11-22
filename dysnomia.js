@@ -1,13 +1,15 @@
-var config = require('./config.json');
-var Discord = require('discord.js');
+"use strict";
+
+var config = require("./config.json");
+var Discord = require("discord.js");
 var Parse = require("./parser.js");
 var bot = new Discord.Client();
 
-bot.on('ready', () => {
-    console.log('The bot is ready!');
+bot.on("ready", () => {
+    console.log("The bot is ready!");
 });
 
-bot.on('message', (message) => {
+bot.on("message", (message) => {
 
     if (~["bot", "testing"].indexOf(message.channel.name)) {
 

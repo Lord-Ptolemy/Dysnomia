@@ -5,7 +5,7 @@
   "main": "dysnomia.js",
   "scripts": {
     "start": "node dysnomia",
-    "test": "eslint dysnomia.js **/*.js"
+    "test": "eslint *.js lib test"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
     "discord.js": "hydrabolt/discord.js"
   },
   "devDependencies": {
-    "eshint": "^1.10.0"
+    "eshint": "^1.10.0",
+    "mocha": "^2.3.4"
   },
   "engines": {
     "node": ">=4.0.0"
