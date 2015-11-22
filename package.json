@@ -4,7 +4,8 @@
   "description": "A Discord bot using discord.js",
   "main": "dysnomia.js",
   "scripts": {
-    "start": "node dysnomia"
+    "start": "node dysnomia",
+    "test": "eslint dysnomia.js **/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,9 @@
   "dependencies": {
     "discord.js": "hydrabolt/discord.js"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eshint": "^1.10.0"
+  },
   "engines": {
     "node": ">=4.0.0"
   }

@@ -10,12 +10,12 @@ bot.on('ready', () => {
 bot.on('message', (message) => {
 
     if (~["bot", "testing"].indexOf(message.channel.name)) {
-        
+
         var cmd = Parse.command("$", message, {
             allowMention : bot.user,
             sensitive: false
         });
-        
+
         if(cmd){
             bot.sendMessage(message.channel, "**Parsed Argument Input**:\n\n" + cmd.arguments.join("\n"));
             bot.sendMessage(message.channel, "**Parsed Options Input**:\n\n" + JSON.stringify(cmd.options, null, 4));
