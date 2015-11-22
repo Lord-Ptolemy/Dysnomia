@@ -5,7 +5,7 @@
   "main": "dysnomia.js",
   "scripts": {
     "start": "node dysnomia",
-    "test": "eslint *.js lib test"
+    "test": "eslint *.js lib test && mocha"
   },
   "repository": {
     "type": "git",
