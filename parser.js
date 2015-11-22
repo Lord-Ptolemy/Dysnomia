@@ -1,21 +1,21 @@
 function DefaultOptions(defaults, options) {
-	
-	if(!options){
+
+	if (!options) {
 		options = {};
 	}
-	
+
 	for (var key in defaults) {
-		if (!options.hasOwnProperty(key)){
+		if (!options.hasOwnProperty(key)) {
 			options[key] = defaults[key];
 		}
 	}
-	
+
 	return options;
 }
 
 var defaults = {
-	sensitive : false,
-	allowMention : false
+	sensitive: false,
+	allowMention: false
 }
 
 exports.command = function (prefix, message, options) {
@@ -37,92 +37,110 @@ exports.command = function (prefix, message, options) {
 			flags : ["f", "l"]
 		}	
 	*/
-	
-	function isValidCommandType(){
-		if(options.sensitive){
+
+	function isValidCommandType() {
+		if (options.sensitive) {
 			// don't trim, keep case sensitivity
-			if(message.content.indexOf(prefix) === 0){
+			if (message.content.indexOf(prefix) === 0) {
 				message.content = message.content.substr(prefix.length);
 				return true;
 			}
-		}else if(options.allowMention){
+		} else if (options.allowMention) {
 			// see if the user is mentioned
-			if(message.isMentioned(options.allowMention)){
+			if (message.isMentioned(options.allowMention)) {
 				message.content = message.content.replace(options.allowMention.mention(), "");
 				return true;
 			}
-				
-		}else{
+
+		} else {
 			// trim, don't care about case
 			var insen = message.content.trim().toUpperCase();
-			if(insen.indexOf(prefix.toUpperCase()) === 0){
+			if (insen.indexOf(prefix.toUpperCase()) === 0) {
 				message.content = message.content.substr(prefix.length);
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	if( !isValidCommandType() ){
+
+	if (!isValidCommandType()) {
 		return false;
 	}
-	
+
 	var command = message.content.split(" ")[0];
-	var args = [], onEscape=false, buffer="", inQuotes=false;
-	
-	for(var char of message.content.replace(command, "")){
-		if(char === " " && !inQuotes){
+	var args = [], options = {}, flags = [], onEscape = false, buffer = "", inQuotes = false;
+
+	for (var char of message.content.replace(command, "")) {
+		if (char === " " && !inQuotes) {
 			args.push(buffer);
 			buffer = "";
 			continue;
 		}
-		if(char === "\""){
-			if(inQuotes){
-				if(!onEscape){
+		if (char === "\"") {
+			if (inQuotes) {
+				if (!onEscape) {
 					//the end of that quote
 					args.push(buffer);
 					inQuotes = false;
 					buffer = "";
 					continue;
-				}else{
+				} else {
 					//continue adding
 					buffer += char;
 					continue;
 				}
-			}else{
-				if(!onEscape)
-					inQuotes=true;
+			} else {
+				if (!onEscape)
+					inQuotes = true;
 				continue;
 			}
 		}
-		if(char === "\\"){
-			if(!onEscape){
+		if (char === "\\") {
+			if (!onEscape) {
 				onEscape = true;
 				continue;
-			}else{
+			} else {
 				onEscape = false;
 				buffer += char;
 				continue;
 			}
 		}
-		if(onEscape){
-			onEscape=false;
+		if (onEscape) {
+			onEscape = false;
 		}
 		buffer += char;
 	}
-	
-	if(buffer.length > 0){
+
+	if (buffer.length > 0) {
 		args.push(buffer);
 		buffer = "";
 	}
-	
-	for(var i in args){
-		if(args[i].length === 0){
+
+	for (var i in args) {
+		if (args[i].length === 0) {
 			args.splice(i, 1);
 		}
 	}
-	
-	console.log("hi:",args)
-	
-	return args;
+
+	for (var i in args) {
+		if (~args[i].indexOf("=")) {
+			if (~args[i].substring(0, args[i].indexOf("=")).indexOf(" ")){
+				//an argument
+			}else{
+				//an option
+				var splitUp = args[i].split("=");
+				var label = splitUp[0];
+				var rest = splitUp.slice(1).join("=");
+				options[label] = rest;
+				args.splice(i, 1);
+			}
+		}else{
+			// an argument
+		}
+	}
+
+	return {
+		arguments : args,
+		options : options
+	};
 }
