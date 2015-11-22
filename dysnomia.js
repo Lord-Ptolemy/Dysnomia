@@ -20,7 +20,8 @@ bot.on("message", (message) => {
         });
 
         if (cmd) {
-            Loader.findAndExecute(cmd);
+            var result = Loader.findAndExecute(cmd);
+            message.channel.sendMessage(result);
         } else {
             bot.reply(message,
                 "An error occurred while parsing the command!");
