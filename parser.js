@@ -39,27 +39,30 @@ exports.command = function (prefix, message, options) {
 	*/
 
 	function isValidCommandType() {
+
 		if (options.sensitive) {
 			// don't trim, keep case sensitivity
 			if (message.content.indexOf(prefix) === 0) {
 				message.content = message.content.substr(prefix.length);
 				return true;
 			}
-		} else if (options.allowMention) {
-			// see if the user is mentioned
-			if (message.isMentioned(options.allowMention)) {
-				message.content = message.content.replace(options.allowMention.mention(), "");
-				return true;
-			}
-
 		} else {
-			// trim, don't care about case
 			var insen = message.content.trim().toUpperCase();
 			if (insen.indexOf(prefix.toUpperCase()) === 0) {
 				message.content = message.content.substr(prefix.length);
 				return true;
 			}
 		}
+		
+		if (options.allowMention) {
+			// see if the user is mentioned
+			if (message.isMentioned(options.allowMention)) {
+				message.content = message.content.replace(options.allowMention.mention(), "");
+				return true;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -67,7 +70,7 @@ exports.command = function (prefix, message, options) {
 		return false;
 	}
 
-	var command = message.content.split(" ")[0];
+	var command;
 	var args = [], options = {}, flags = [], onEscape = false, buffer = "", inQuotes = false;
 
 	for (var char of message.content.replace(command, "")) {
@@ -116,17 +119,36 @@ exports.command = function (prefix, message, options) {
 		buffer = "";
 	}
 
-	for (var i in args) {
+	var i = args.length;
+	while (i--) {
 		if (args[i].length === 0) {
 			args.splice(i, 1);
 		}
 	}
 
-	for (var i in args) {
+	i = args.length;
+	while (i--) {
+		if (args[i].charAt(0) === "-") {
+			//maybe a flag or a boolean option?
+			if (args[i].charAt(1) === "-") {
+				//a boolean option
+				options[args[i].split("").slice(2).join("")] = true;
+				args.splice(i, 1);
+			} else {
+				//flags
+				var mflags = args[i].split("").slice(1);
+				flags = flags.concat(mflags);
+				args.splice(i, 1);
+			}
+		}
+	}
+
+	i = args.length;
+	while (i--) {
 		if (~args[i].indexOf("=")) {
-			if (~args[i].substring(0, args[i].indexOf("=")).indexOf(" ")){
+			if (~args[i].substring(0, args[i].indexOf("=")).indexOf(" ")) {
 				//an argument
-			}else{
+			} else {
 				//an option
 				var splitUp = args[i].split("=");
 				var label = splitUp[0];
@@ -134,13 +156,15 @@ exports.command = function (prefix, message, options) {
 				options[label] = rest;
 				args.splice(i, 1);
 			}
-		}else{
+		} else {
 			// an argument
 		}
 	}
 
 	return {
-		arguments : args,
-		options : options
+		command: args[0],
+		arguments: args.slice(1),
+		options: options,
+		flags: flags
 	};
 }
