@@ -2,7 +2,7 @@
 
 var config = require("./config.json");
 var Discord = require("discord.js");
-var Parse = require("./parser.js");
+var Parse = require("./lib/parser.js");
 var bot = new Discord.Client();
 
 bot.on("ready", () => {
