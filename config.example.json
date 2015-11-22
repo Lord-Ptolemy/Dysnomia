@@ -1,4 +1,5 @@
 {
 	"email": "insert email here",
-	"password": "insert password here"
+	"password": "insert password here",
+	"exampleTestKey": "exampleTestValue"
 }
