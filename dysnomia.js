@@ -3,6 +3,7 @@
 var config = require("./config.json");
 var Discord = require("discord.js");
 var Parse = require("./parser.js");
+var Loader = require("./lib/command-loader.js");
 var bot = new Discord.Client();
 
 bot.on("ready", () => {
@@ -18,11 +19,11 @@ bot.on("message", (message) => {
             sensitive: false
         });
 
-        if(cmd){
-            bot.sendMessage(message.channel, "**Parsed Argument Input**:\n\n" + cmd.arguments.join("\n"));
-            bot.sendMessage(message.channel, "**Parsed Options Input**:\n\n" + JSON.stringify(cmd.options, null, 4));
-            bot.sendMessage(message.channel, "**Parsed Flags Input**:\n\n" + cmd.flags.join("\n"));
-            bot.sendMessage(message.channel, "**Command:** `" + cmd.command + "`");
+        if (cmd) {
+            Loader.findAndExecute(cmd);
+        } else {
+            bot.reply(message,
+                "An error occurred while parsing the command!");
         }
     }
 
