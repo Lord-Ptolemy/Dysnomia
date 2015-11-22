@@ -88,16 +88,20 @@ exports.command = function (prefix, message, options) {
                     //the end of that quote
                     args.push(buffer);
                     inQuotes = false;
+                    onEscape = false;
                     buffer = "";
                     continue;
                 } else {
                     //continue adding
                     buffer += char;
+                    onEscape = false;
                     continue;
                 }
             } else {
                 if (!onEscape)
                     inQuotes = true;
+                else
+                    onEscape = false;
                 continue;
             }
         }
