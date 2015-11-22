@@ -8,14 +8,14 @@ describe("Config", () => {
         before(() => {
             // Back up an existing config file
             try {
-                fs.createReadStream("config.json").pipe(fs.createWriteStream("config.backup.json"));
+                fs.writeFileSync("config.backup.json", fs.readFileSync("config.json"));
             } catch (e) {} // Suppress errors, they don't matter
         });
 
         after(() => {
             // Restore the backed up file
             try {
-                fs.createReadStream("config.backup.json").pipe(fs.createWriteStream("config.json"));
+                fs.writeFileSync("config.json", fs.readFileSync("config.backup.json"));
             } catch (e) {} // Suppress errors, they don't matter
         });
 
@@ -41,12 +41,16 @@ describe("Config", () => {
     describe("#writeFile", () => {
         before(() => {
             // Back up an existing config file
-            fs.createReadStream("config.json").pipe(fs.createWriteStream("config.backup.json"));
+            try {
+                fs.writeFileSync("config.backup.json", fs.readFileSync("config.json"));
+            } catch (e) {} // Suppress errors, they don't matter
         });
 
         after(() => {
             // Restore the backed up file
-            fs.createReadStream("config.backup.json").pipe(fs.createWriteStream("config.json"));
+            try {
+                fs.writeFileSync("config.json", fs.readFileSync("config.backup.json"));
+            } catch (e) {} // Suppress errors, they don't matter
         });
 
         it("should write a config file and then read it again", () => {
