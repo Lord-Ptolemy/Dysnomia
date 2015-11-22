@@ -1,23 +1,27 @@
 var assert = require('assert');
-
-var Config = require('config');
+var fs = require('fs');
 
 describe('Config', () => {
   describe('#readFile', () => {
     before(() => {
       // Back up an existing config file
-      fs.createReadStream('config.json').pipe(fs.createWriteStream('config.backup.json'));
+      try {
+        fs.createReadStream('config.json').pipe(fs.createWriteStream('config.backup.json'));
+      } catch (e) {} // Suppress errors, they don't matter
     });
 
     after(() => {
       // Restore the backed up file
-      fs.createReadStream('config.backup.json').pipe(fs.createWriteStream('config.json'));
+      try {
+        fs.createReadStream('config.backup.json').pipe(fs.createWriteStream('config.json'));
+      } catch (e) {} // Suppress errors, they don't matter
     });
 
     it('should read an existing config file', () => {
       // Make a config file
       fs.writeFileSync('config.json', JSON.stringify({ testKey: 'testValue' }));
 
+      var Config = require('../lib/config.js');
       Config.readFile();
       assert.equal(Config.get('testKey'), 'testValue');
     });
@@ -26,6 +30,7 @@ describe('Config', () => {
       // Delete any config file
       fs.unlinkSync('config.json');
 
+      var Config = require('../lib/config.js');
       Config.readFile();
       assert.equal(Config.get('exampleTestKey'), 'exampleTestValue');
     });
@@ -45,10 +50,13 @@ describe('Config', () => {
     it('should write a config file and then read it again', () => {
       // Delete any config file and make a new example one
       fs.unlinkSync('config.json');
+
+      var Config = require('../lib/config.js');
       Config.readFile();
       Config.set('testKey1', 'testValue1');
       Config.setAndWrite('testKey2', 'testValue2');
-      Config = require('config');
+
+      Config = require('../lib/config.js');
 
       Config.readFile();
       assert.equal(Config.get('testKey1'), 'testValue1');
