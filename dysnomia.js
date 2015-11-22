@@ -1,6 +1,6 @@
 var config = require('./config.json');
 var Discord = require('discord.js');
-
+var Parse = require("./parser.js");
 var bot = new Discord.Client();
 
 bot.on('ready', () => {
@@ -8,9 +8,14 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (message) => {
-    if (message.content.toLowerCase() === 'ping') {
-        bot.reply(message, 'Pong!');
+
+    if (~["bot", "testing"].indexOf(message.channel.name)) {
+        var args = Parse.command("$", message, null);
+        
+        if(args)
+            bot.sendMessage(message.channel, "Parsed Argument Input:\n\n" + args.join("\n"));
     }
+
 });
 
 bot.login(config.email, config.password);
