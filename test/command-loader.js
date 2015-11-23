@@ -20,7 +20,7 @@ describe("Loader", () => {
             it("should exist", () => {
                 var command = {};
                 Loader.addUtilites(command);
-                assert.assert(command.joinArguments);
+                assert(command.joinArguments);
             });
 
             it("should add joinArguments correctly", () => {
@@ -36,7 +36,7 @@ describe("Loader", () => {
             it("should exist", () => {
                 var command = {};
                 Loader.addUtilites(command);
-                assert.assert(command.getOption);
+                assert(command.getOption);
             });
 
             it("should return the given option if it exists", () => {
@@ -64,7 +64,7 @@ describe("Loader", () => {
             it("should exist", () => {
                 var command = {};
                 Loader.addUtilites(command);
-                assert.assert(command.getOption);
+                assert(command.getOption);
             });
 
             it("should return true if the one-char flag exists", () => {
