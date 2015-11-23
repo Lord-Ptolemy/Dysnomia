@@ -16,15 +16,29 @@ describe("Loader", () => {
     });
 
     describe("#addUtilities", () => {
-        it("should add joinArguments correctly", () => {
-            var command = {
-                arguments: ["This", "is", "a", "test", "message"]
-            };
-            Loader.addUtilities(command);
-            assert.equal(command.joinArguments(), "This is a test message");
+        describe("#joinArguments", () => {
+            it("should exist", () => {
+                var command = {};
+                Loader.addUtilites(command);
+                assert.assert(command.joinArguments);
+            });
+
+            it("should add joinArguments correctly", () => {
+                var command = {
+                    arguments: ["This", "is", "a", "test", "message"]
+                };
+                Loader.addUtilities(command);
+                assert.equal(command.joinArguments(), "This is a test message");
+            });
         });
 
         describe("#getOption", () => {
+            it("should exist", () => {
+                var command = {};
+                Loader.addUtilites(command);
+                assert.assert(command.getOption);
+            });
+
             it("should return the given option if it exists", () => {
                 var command = {
                     options: {
@@ -43,6 +57,55 @@ describe("Loader", () => {
                 Loader.addUtilities(command);
                 assert.equal(command.getOption("testOption", "testValue"),
                     "testValue");
+            });
+        });
+
+        describe("#hasFlag", () => {
+            it("should exist", () => {
+                var command = {};
+                Loader.addUtilites(command);
+                assert.assert(command.getOption);
+            });
+
+            it("should return true if the one-char flag exists", () => {
+                var command = {
+                    flags: ["t"],
+                    options: {}
+                };
+                Loader.addUtilities(command);
+                assert.equal(command.hasFlag("test"), true);
+            });
+
+            it("should return true if the explicit option is true", () => {
+                var command = {
+                    flags: [],
+                    options: {
+                        test: true
+                    }
+                };
+                Loader.addUtilities(command);
+                assert.equal(command.hasFlag("test"), true);
+            });
+
+            it("should return true for the one-char and the explicit flag " +
+                    "at the same time", () => {
+                var command = {
+                    flags: ["t"],
+                    options: {
+                        test: true
+                    }
+                };
+                Loader.addUtilities(command);
+                assert.equal(command.hasFlag("test"), true);
+            });
+
+            it("should return false if neither exists", () => {
+                var command = {
+                    flags: [],
+                    options: {}
+                };
+                Loader.addUtilities(command);
+                assert.equal(command.hasFlag("test"), false);
             });
         });
     });
