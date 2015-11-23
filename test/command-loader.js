@@ -53,7 +53,7 @@ describe("Loader", () => {
             it("should return the default value if the option doesn't " +
                     "exist", () => {
                 var command = {
-                    options: {}
+                    options: undefined
                 };
                 Loader.addUtilities(command);
                 assert.equal(command.getOption("testOption", "testValue"),
@@ -71,7 +71,7 @@ describe("Loader", () => {
             it("should return true if the one-char flag exists", () => {
                 var command = {
                     flags: ["t"],
-                    options: {}
+                    options: undefined
                 };
                 Loader.addUtilities(command);
                 assert.equal(command.hasFlag("test"), true);
@@ -79,7 +79,7 @@ describe("Loader", () => {
 
             it("should return true if the explicit option is true", () => {
                 var command = {
-                    flags: [],
+                    flags: undefined,
                     options: {
                         test: true
                     }
@@ -102,8 +102,8 @@ describe("Loader", () => {
 
             it("should return false if neither exists", () => {
                 var command = {
-                    flags: [],
-                    options: {}
+                    flags: undefined,
+                    options: undefined
                 };
                 Loader.addUtilities(command);
                 assert.equal(command.hasFlag("test"), false);
