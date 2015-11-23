@@ -19,7 +19,7 @@ describe("Loader", () => {
         describe("#joinArguments", () => {
             it("should exist", () => {
                 var command = {};
-                Loader.addUtilites(command);
+                Loader.addUtilities(command);
                 assert(command.joinArguments);
             });
 
@@ -35,7 +35,7 @@ describe("Loader", () => {
         describe("#getOption", () => {
             it("should exist", () => {
                 var command = {};
-                Loader.addUtilites(command);
+                Loader.addUtilities(command);
                 assert(command.getOption);
             });
 
@@ -63,7 +63,7 @@ describe("Loader", () => {
         describe("#hasFlag", () => {
             it("should exist", () => {
                 var command = {};
-                Loader.addUtilites(command);
+                Loader.addUtilities(command);
                 assert(command.getOption);
             });
 
