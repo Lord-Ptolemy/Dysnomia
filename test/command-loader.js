@@ -10,7 +10,7 @@ describe("Loader", () => {
     });
 
     it("should find the echo command", () => {
-        Loader.loadCommand();
+        Loader.loadCommands();
         var echo = Loader.findCommand("echo");
         assert.assert(echo);
         assert.equal(echo.commandName, "echo");
