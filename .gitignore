@@ -1,4 +1,4 @@
 node_modules
 npm-debug.log
-test
 config.json
+config.backup.json

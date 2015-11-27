@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "indent": [2, 4],
+    "quotes": [2, "double"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "eqeqeq": [2, "smart"],
+    "no-trailing-spaces": 2,
+    "array-bracket-spacing": [2, "never"],
+    "brace-style": 2,
+    "comma-style": [2, "last"],
+    "no-console": 0,
+    "no-empty": 0
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": "eslint:recommended"
+}
